@@ -12,6 +12,8 @@ export default class LogCtrl {
         (data) => {
           if (data && data.type && data.type === 'LOG') {
             const d = data['data'];
+            const temp = parseFloat(d[9]);
+            const hum = parseFloat(d[10]);
 
             if (d) {
               this.insert({
@@ -24,9 +26,9 @@ export default class LogCtrl {
                 co2On: d[6] == 1,
                 co2TimeOn: this.toTime(d[7]),
                 co2TimeOff: this.toTime(d[8]),
-                temperature: parseFloat(d[9]),
-                humidity: parseFloat(d[10]),
-                aquariumTemperature: parseFloat(d[9]),
+                temperature: isNaN(temp) ? null : temp,
+                humidity: isNaN(hum) ? null : hum,
+                aquariumTemperature: isNaN(temp) ? null : temp,
               }).then((data) => {
                 console.log('Log added to DB');
               }).catch((err: Error) => {
