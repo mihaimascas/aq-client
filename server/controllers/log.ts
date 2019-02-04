@@ -2,6 +2,7 @@ import Log from '../models/log';
 import {Subject, Observer, Observable} from 'rxjs';
 import {Subscribable} from "rxjs/Observable";
 import {el} from "@angular/platform-browser/testing/src/browser_util";
+import * as moment from "moment";
 
 export default class LogCtrl {
   model = Log;
@@ -27,7 +28,7 @@ export default class LogCtrl {
                 humidity: parseFloat(d[10]),
                 aquariumTemperature: parseFloat(d[9]),
               }).then((data) => {
-                console.log('Log added to DB: ', data);
+                console.log('Log added to DB');
               }).catch((err: Error) => {
                 console.log('Log not added to DB! Err: ', err.message);
               })
@@ -46,6 +47,15 @@ export default class LogCtrl {
     } catch(err) {
       throw new Error(err);
     }
+  }
+
+  getInRange(min: number, max: number): Promise<any> {
+    const date1 = moment.unix(min).toDate();
+    const date2 = moment.unix(max).toDate();
+
+    const req = this.model.find({}).where('date').gte(date1).lte(date2);
+
+    return req.exec();
   }
 
   private toTime(t: string): string {

@@ -11,12 +11,6 @@ export default function setRoutes(app) {
 
   const serialCtrl = new SerialCtrl();
 
-  serialCtrl.getUpdates().subscribe(
-    (data) => {
-      console.log('sssssss: ', data);
-    }
-  );
-
   const userCtrl = new UserCtrl();
   const logCtrl = new LogCtrl(serialCtrl.getUpdates());
 
@@ -28,6 +22,23 @@ export default function setRoutes(app) {
   router.route('/user/:id').get(userCtrl.get);
   router.route('/user/:id').put(userCtrl.update);
   router.route('/user/:id').delete(userCtrl.delete);
+
+  router.route('/logs').get((req, res) => {
+    const date1 = parseInt(req.query.dateStart, 10);
+    const date2 = parseInt(req.query.dateEnd, 10);
+
+    if (!isNaN(date1) && !isNaN(date2) && date1 < date2) {
+      logCtrl.getInRange(date1, date2).then(
+        (docs) => {
+          res.status(200).json(docs);
+        }
+      ).catch(
+        (err) => {
+          console.log(err);
+        }
+      )
+    }
+  });
 
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
