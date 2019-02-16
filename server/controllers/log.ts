@@ -11,24 +11,27 @@ export default class LogCtrl {
       serialObserver.subscribe(
         (data) => {
           if (data && data.type && data.type === 'LOG') {
-            const d = data['data'];
-            const temp = parseFloat(d[9]);
-            const hum = parseFloat(d[10]);
+            const d = data['body'];
+            const temp = parseFloat(d[11]);
+            const hum = parseFloat(d[12]);
+            const aqTemp = parseFloat(d[13]);
 
             if (d) {
               this.insert({
                 timestamp: d[0],
-                lightOn: d[1] == 1,
-                lightTimeOn1: this.toTime(d[2]),
-                lightTimeOff1: this.toTime(d[3]),
-                lightTimeOn2: this.toTime(d[4]),
-                lightTimeOff2: this.toTime(d[5]),
-                co2On: d[6] == 1,
-                co2TimeOn: this.toTime(d[7]),
-                co2TimeOff: this.toTime(d[8]),
+                lightOn: d[1] == 1 || d[1] == 'true',
+                lightAuto: d[2] == 1 || d[2] == 'true',
+                lightTimeOn1: this.toTime(d[3]),
+                lightTimeOff1: this.toTime(d[4]),
+                lightTimeOn2: this.toTime(d[5]),
+                lightTimeOff2: this.toTime(d[6]),
+                co2On: d[7] == 1 || d[7] == 'true',
+                co2Auto: d[8] == 1 || d[8] == 'true',
+                co2TimeOn: this.toTime(d[9]),
+                co2TimeOff: this.toTime(d[10]),
                 temperature: isNaN(temp) ? null : temp,
                 humidity: isNaN(hum) ? null : hum,
-                aquariumTemperature: isNaN(temp) ? null : temp,
+                aquariumTemperature: isNaN(aqTemp) ? null : aqTemp,
               }).then((data) => {
                 console.log('Log added to DB');
               }).catch((err: Error) => {
@@ -60,15 +63,30 @@ export default class LogCtrl {
     return req.exec();
   }
 
+  getLatest() {
+    const req = this.model.findOne().sort({date: -1});
+
+    return req.exec();
+  }
+
   private toTime(t: string): string {
     let tArr = t ? t.split(':') : [];
 
-    if (tArr.length != 3) {
+    if (tArr.length != 2) {
       return null;
     }
 
     tArr = tArr.map((el) => el.length == 2 ? el : '0' + el);
 
     return tArr.join(':');
+  }
+
+  private splitTime(time: string): string[] {
+    const splitTime = time.split(':');
+    if (splitTime.length > 1) {
+      return splitTime;
+    }
+
+    return null;
   }
 }

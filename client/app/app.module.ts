@@ -23,6 +23,7 @@ import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 import { LogService } from "./services/log.service";
 import { ChartsModule } from "ng2-charts";
+import { SetupFormComponent } from './pages/home/setup-form/setup-form.component';
 
 const PAGES = [
   HomeComponent,
@@ -38,7 +39,8 @@ const PAGES = [
 @NgModule({
   declarations: [
     AppComponent,
-    ...PAGES
+    ...PAGES,
+    SetupFormComponent
   ],
   imports: [
     RoutingModule,

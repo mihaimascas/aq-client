@@ -1,0 +1,92 @@
+<mat-card class="setup">
+  <form class="setup__header" [formGroup]="controls">
+    <h5 class="mb-1">Aquarium Controls</h5>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <mat-slide-toggle
+          class="example-margin"
+          formControlName="ledOn">
+          Lights On
+        </mat-slide-toggle>
+      </div>
+      <div class="col-xs-6">
+        <mat-slide-toggle
+          class="example-margin"
+          formControlName="co2On">
+          CO2 On
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </form>
+  <mat-card-content  class="setup__content">
+    <h5 class="mb-1">Aquarium Setup</h5>
+    <form class="setup__form" [formGroup]="formLights1" (ngSubmit)="saveSettingsLights1()">
+      <div class="row">
+        <div class="col-xs-6 col-lg-3">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lights ON" value="" type="time" formControlName="lightTimeOn1">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-6 col-lg-3">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lights Off" value="" type="time" formControlName="lightTimeOff1">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-lg-3">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formLights1.invalid">Save</button>
+        </div>
+      </div>
+    </form>
+    <form class="setup__form" [formGroup]="formLights2" (ngSubmit)="saveSettingsLights2()">
+      <div class="row">
+        <div class="col-xs-12">
+          <hr>
+        </div>
+        <div class="col-xs-6 col-lg-3">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lights ON (2nd period)" value="" type="time" formControlName="lightTimeOn2">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-6 col-lg-3">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Lights Off (2nd period)" value="" type="time" formControlName="lightTimeOff2">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-lg-3">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formLights2.invalid">Save</button>
+        </div>
+      </div>
+    </form>
+
+    <form class="setup__form" [formGroup]="formCo2" (ngSubmit)="saveSettingsCo2()">
+      <div class="row">
+        <div class="col-xs-12">
+          <hr>
+        </div>
+        <div class="col-xs-6 col-lg-3">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="CO2 ON" value="" type="time" formControlName="co2TimeOn">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-6 col-lg-3">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="CO2 Off" value="" type="time" formControlName="co2TimeOff">
+          </mat-form-field>
+        </div>
+        <div class="col-xs-12 col-lg-3">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formCo2.invalid">Save</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <hr>
+      </div>
+      <div class="col-xs-12">
+        <button mat-raised-button color="secondary" type="button" (click)="loadData()">Reload data</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

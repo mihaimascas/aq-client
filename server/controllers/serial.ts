@@ -6,6 +6,7 @@ const Readline = require('@serialport/parser-readline');
 
 const SERIAL_PORT = '/dev/tty.usbmodem14101';
 
+
 export default class SerialCtrl {
 
   port;
@@ -14,6 +15,9 @@ export default class SerialCtrl {
 
   decoder = new StringDecoder('utf8');
   subject: Subject<any> = new Subject();
+
+  paramList = ['led1OnH', 'led1OnM', 'led1OffH', 'led1OffM', 'led2OnH', 'led2OnM', 'led2OffH', 'led2OffM',
+    'co2OnH', 'co2OnM', 'co2OffH', 'co2OffM', 'ledOn', 'ledAuto', 'co2On', 'co2Auto'];
 
   constructor() {
     this.connectSerial();
@@ -31,6 +35,7 @@ export default class SerialCtrl {
     this.parser = this.port.pipe(new Readline({ delimiter: '\r\n' }));
 
     this.parser.on('data', (data) => {
+      console.log(data);
       let d = this.parseData(data);
       if (d) {
         this.subject.next(d);
@@ -65,7 +70,7 @@ export default class SerialCtrl {
     })
   }
 
-  reconnectSerial() {
+  private reconnectSerial() {
     this.port = null;
     setTimeout(() => {
       this.connectSerial();
@@ -76,17 +81,52 @@ export default class SerialCtrl {
     return this.subject;
   }
 
-  parseData(data) {
+  private parseData(data) {
+    console.log("Serial data: ", data);
     const rawData = this.decoder.write(data);
     const dataArr = rawData ? rawData.split('||') : [];
 
     if (dataArr.length > 1) {
       return {
         type: dataArr[0],
-        data: dataArr.slice(1)
+        body: dataArr.slice(1)
       }
     }
 
     return null;
+  }
+
+  public write(options: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const params = this.generateParams(options);
+      console.log(params);
+
+      if (params && this.port) {
+        this.port.write(params, (err) => {
+          if (err) {
+            reject(err);
+          }
+          resolve();
+        });
+      } else {
+        reject(new Error('Port or parameters missing.'));
+      }
+    })
+  }
+
+  private generateParams(options): string {
+    if (!options) {
+      return null;
+    }
+
+    const params = [];
+
+    this.paramList.forEach((param) => {
+      if (typeof options[param] !== 'undefined') {
+        params.push(`$${param}=${options[param]}`);
+      }
+    });
+
+    return params.join('&') + '\n';
   }
 }

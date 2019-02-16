@@ -1,29 +1,44 @@
 <mat-card class="chart">
-  <mat-card-header  class="chart__header">
-    <h5>Aquarium Status</h5>
-  </mat-card-header>
-  <mat-card-content  class="chart__content">
-    <canvas baseChart width="640" height="400" *ngIf="lineChartData"
-            [datasets]="lineChartData"
-            [labels]="lineChartLabels"
-            [options]="lineChartOptions"
-            [colors]="lineChartColors"
-            [legend]="lineChartLegend"
-            [chartType]="lineChartType"></canvas>
-  </mat-card-content>
-  <mat-card-footer class="chart__footer">
-    <mat-form-field class="mr-2">
-      <mat-select placeholder="Chart interval" [formControl]="interval">
-        <mat-option [value]="1">Last Day</mat-option>
-        <mat-option [value]="7">Last Week</mat-option>
-        <mat-option [value]="30">Last Month</mat-option>
-      </mat-select>
-    </mat-form-field>
 
-    <mat-form-field>
-      <mat-select placeholder="Chart Type" [formControl]="chartType">
-        <mat-option *ngFor="let type of chartTypes" [value]="type">{{type}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </mat-card-footer>
+  <mat-card-content  class="chart__content">
+
+    <mat-tab-group>
+      <mat-tab label="Aquarium Temperature">
+        <canvas baseChart width="640" height="400" *ngIf="chartData1"
+                [datasets]="chartData1"
+                [options]="chartOptions1"
+                [colors]="chartColors1"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </mat-tab>
+      <mat-tab label="Lights & CO2">
+        <canvas baseChart width="640" height="400" *ngIf="chartData1"
+                [datasets]="chartData2"
+                [options]="chartOptions2"
+                [colors]="chartColors2"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </mat-tab>
+      <mat-tab label="Ambient">
+        <canvas baseChart width="640" height="400" *ngIf="chartData1"
+                [datasets]="chartData3"
+                [options]="chartOptions3"
+                [colors]="chartColors3"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+  <form action="" [formGroup]="settings">
+    <mat-card-footer class="chart__footer">
+      <mat-form-field class="mr-2">
+        <mat-select placeholder="Chart interval" [formControl]="interval">
+          <mat-option [value]="1">Last Day</mat-option>
+          <mat-option [value]="7">Last Week</mat-option>
+          <mat-option [value]="30">Last Month</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-footer>
+  </form>
+
 </mat-card>

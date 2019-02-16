@@ -40,6 +40,30 @@ export default function setRoutes(app) {
     }
   });
 
+  router.route('/status').get((req, res) => {
+    logCtrl.getLatest().then(
+      (docs) => {
+        res.status(200).json(docs);
+      }
+    ).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
+  });
+
+  router.route('/status').post((req, res) => {
+    serialCtrl.write(req.body).then(
+      () => {
+        res.sendStatus(200);
+      },
+      (err) => {
+        res.sendStatus(400);
+        return console.error(err);
+      }
+    );
+  });
+
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
 
