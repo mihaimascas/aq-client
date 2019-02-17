@@ -4,6 +4,7 @@ import UserCtrl from './controllers/user';
 import SerialCtrl from './controllers/serial';
 import LogCtrl from './controllers/log';
 import User from './models/user';
+import {checkJWT} from "./utils/auth";
 
 export default function setRoutes(app) {
 
@@ -53,6 +54,11 @@ export default function setRoutes(app) {
   });
 
   router.route('/status').post((req, res) => {
+    if (!checkJWT(req)) {
+      res.status(403).json({ error: 'Login required!' });
+      return;
+    }
+
     serialCtrl.write(req.body).then(
       () => {
         res.sendStatus(200);

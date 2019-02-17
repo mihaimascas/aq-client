@@ -35,7 +35,6 @@ export default class SerialCtrl {
     this.parser = this.port.pipe(new Readline({ delimiter: '\r\n' }));
 
     this.parser.on('data', (data) => {
-      console.log(data);
       let d = this.parseData(data);
       if (d) {
         this.subject.next(d);
