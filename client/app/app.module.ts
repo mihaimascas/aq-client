@@ -1,4 +1,4 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA, Injector} from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 /** Modules */
 import { MaterialModule } from './material/material.module';
@@ -24,6 +24,9 @@ import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 import { LogService } from "./services/log.service";
 import { ChartsModule } from "ng2-charts";
 import { SetupFormComponent } from './pages/home/setup-form/setup-form.component';
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {JWTInterceptor} from "./services/jwt.interceptor";
+import {ToastComponent} from "./shared/toast/toast.component";
 
 const PAGES = [
   HomeComponent,
@@ -47,9 +50,16 @@ const PAGES = [
     SharedModule,
     BrowserAnimationsModule,
     MaterialModule,
-    ChartsModule
+    ChartsModule,
+
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JWTInterceptor,
+      multi: true,
+      deps: [Injector, ToastComponent]
+    },
     AuthService,
     AuthGuardLogin,
     AuthGuardAdmin,

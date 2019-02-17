@@ -44,6 +44,11 @@ export class SensorChartComponent implements OnInit {
   };
   public chartOptions2:any = {
     responsive: true,
+    elements: {
+      line: {
+        tension: 0,
+      }
+    },
     scales: {
       xAxes: [{
         type: 'time',
@@ -55,7 +60,7 @@ export class SensorChartComponent implements OnInit {
       yAxes: [{
         display: true,
         ticks: {
-          suggestedMin: -1,
+          suggestedMin: -0.5,
           suggestedMax: 2,
         }
       }]
@@ -120,21 +125,21 @@ export class SensorChartComponent implements OnInit {
   ];
 
   public chartColors3:Array<any> = [
-    { // green
-      backgroundColor: 'rgba(139, 195, 74 ,0.2)',
-      borderColor: 'rgba(139, 195, 74 ,1)',
-      pointBackgroundColor: 'rgba(139, 195, 74 ,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(139, 195, 74 ,1)'
-    },
     { // blue
-      backgroundColor: 'rgba(41,182,246,0.2)',
+      backgroundColor: 'rgba(41,182,246,.1)',
       borderColor: 'rgba(41,182,246,1)',
       pointBackgroundColor: 'rgba(41,182,246,1)',
       pointBorderColor: '#fff',
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(41,182,246,0.8)'
+    },
+    { // green
+      backgroundColor: 'rgba(139, 195, 74 ,0)',
+      borderColor: 'rgba(139, 195, 74 ,1)',
+      pointBackgroundColor: 'rgba(139, 195, 74 ,1)',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(139, 195, 74 ,0.8)'
     }
   ];
   public lineChartLegend:boolean = true;
@@ -178,7 +183,7 @@ export class SensorChartComponent implements OnInit {
     this.logs.forEach((log) => {
       let date = new Date(log.date);
 
-      co2Data.push({x: date, y: log.co2On ? 1 : 0});
+      co2Data.push({x: date, y: log.co2On ? 1.5 : 0});
       lightsData.push({x: date, y: log.lightOn ? 1 : 0});
 
       if (log.temperature !== null) {
@@ -199,8 +204,8 @@ export class SensorChartComponent implements OnInit {
     ];
 
     this.chartData2 = [
-      {data: co2Data, label: 'CO2 (on/off)'},
-      {data: lightsData, label: 'Lights (on/off)'}
+      {data: lightsData, label: 'Lights (on/off)'},
+      {data: co2Data, label: 'CO2 (on/off)'}
     ];
 
     this.chartData3 = [

@@ -25,6 +25,11 @@ export default function setRoutes(app) {
   router.route('/user/:id').delete(userCtrl.delete);
 
   router.route('/logs').get((req, res) => {
+    if (!checkJWT(req)) {
+      res.status(403).json({ error: 'Login required!' });
+      return;
+    }
+
     const date1 = parseInt(req.query.dateStart, 10);
     const date2 = parseInt(req.query.dateEnd, 10);
 
@@ -42,6 +47,11 @@ export default function setRoutes(app) {
   });
 
   router.route('/status').get((req, res) => {
+    if (!checkJWT(req)) {
+      res.status(403).json({ error: 'Login required!' });
+      return;
+    }
+
     logCtrl.getLatest().then(
       (docs) => {
         res.status(200).json(docs);
@@ -54,10 +64,10 @@ export default function setRoutes(app) {
   });
 
   router.route('/status').post((req, res) => {
-    // if (!checkJWT(req)) {
-    //   res.status(403).json({ error: 'Login required!' });
-    //   return;
-    // }
+    if (!checkJWT(req)) {
+      res.status(403).json({ error: 'Login required!' });
+      return;
+    }
 
     serialCtrl.write(req.body).then(
       () => {

@@ -3,19 +3,28 @@
     <h5 class="mb-1">Aquarium Controls</h5>
 
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-xs-12 col-md-6">
         <mat-slide-toggle
-          class="example-margin"
+          class="example-margin mb-2"
           formControlName="ledOn">
-          Lights On
+          <strong>Lights</strong>
         </mat-slide-toggle>
+        <mat-chip-list *ngIf="status">
+          <mat-chip>{{getLightOnTime()}}</mat-chip>
+          <mat-chip [color]="status.lightAuto ? 'accent' : 'warn'" selected>Status: <strong>{{status.lightAuto ? 'auto' : 'manual'}}</strong></mat-chip>
+        </mat-chip-list>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-12 col-md-6">
+        <hr class="hidden-md-up">
         <mat-slide-toggle
-          class="example-margin"
+          class="example-margin mb-2"
           formControlName="co2On">
-          CO2 On
+          <strong>CO2</strong>
         </mat-slide-toggle>
+        <mat-chip-list *ngIf="status">
+          <mat-chip>{{getCo2OnTime()}}</mat-chip>
+          <mat-chip [color]="status.co2Auto ? 'accent' : 'warn'" selected>Status: <strong>{{status.co2Auto ? 'auto' : 'manual'}}</strong></mat-chip>
+        </mat-chip-list>
       </div>
     </div>
   </form>
@@ -23,12 +32,12 @@
     <h5 class="mb-1">Aquarium Setup</h5>
     <form class="setup__form" [formGroup]="formLights1" (ngSubmit)="saveSettingsLights1()">
       <div class="row">
-        <div class="col-xs-6 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-lg-3">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Lights ON" value="" type="time" formControlName="lightTimeOn1">
           </mat-form-field>
         </div>
-        <div class="col-xs-6 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-lg-3">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Lights Off" value="" type="time" formControlName="lightTimeOff1">
           </mat-form-field>
@@ -43,12 +52,12 @@
         <div class="col-xs-12">
           <hr>
         </div>
-        <div class="col-xs-6 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-lg-3">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Lights ON (2nd period)" value="" type="time" formControlName="lightTimeOn2">
           </mat-form-field>
         </div>
-        <div class="col-xs-6 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-lg-3">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Lights Off (2nd period)" value="" type="time" formControlName="lightTimeOff2">
           </mat-form-field>
@@ -64,12 +73,12 @@
         <div class="col-xs-12">
           <hr>
         </div>
-        <div class="col-xs-6 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-lg-3">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="CO2 ON" value="" type="time" formControlName="co2TimeOn">
           </mat-form-field>
         </div>
-        <div class="col-xs-6 col-lg-3">
+        <div class="col-xs-12 col-sm-6 col-lg-3">
           <mat-form-field class="example-full-width">
             <input matInput placeholder="CO2 Off" value="" type="time" formControlName="co2TimeOff">
           </mat-form-field>

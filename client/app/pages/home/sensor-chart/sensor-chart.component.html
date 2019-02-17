@@ -2,7 +2,7 @@
 
   <mat-card-content  class="chart__content">
 
-    <mat-tab-group>
+    <mat-tab-group class="chart__group">
       <mat-tab label="Aquarium Temperature">
         <canvas baseChart width="640" height="400" *ngIf="chartData1"
                 [datasets]="chartData1"
@@ -38,6 +38,8 @@
           <mat-option [value]="30">Last Month</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <button mat-raised-button color="secondary" type="button" (click)="getLogs()" class="ml-2">Reload data</button>
     </mat-card-footer>
   </form>
 

@@ -6,4 +6,12 @@
     background-color: $light-grayCol;
     padding: 1rem 1rem .3rem 1rem;
   }
+
+  &__group {
+    margin: 0 -16px -10px -16px;
+
+    @media (min-width: 600px) {
+      margin: 0 -14px -10px -14px;
+    }
+  }
 }
