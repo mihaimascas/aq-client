@@ -54,10 +54,10 @@ export default function setRoutes(app) {
   });
 
   router.route('/status').post((req, res) => {
-    if (!checkJWT(req)) {
-      res.status(403).json({ error: 'Login required!' });
-      return;
-    }
+    // if (!checkJWT(req)) {
+    //   res.status(403).json({ error: 'Login required!' });
+    //   return;
+    // }
 
     serialCtrl.write(req.body).then(
       () => {
