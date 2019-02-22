@@ -12,12 +12,14 @@ module.exports = {
       env: {
         NODE_ENV: 'dev',
         MONGODB_URI: 'mongodb://localhost:27017/aquarium',
-        SECRET_TOKEN: 'killbit'
+        SECRET_TOKEN: 'killbit',
+        SERIAL_PORT_ADDRESS: '/dev/ttyACM1'
       },
       env_production : {
         NODE_ENV: 'production',
         MONGODB_URI: 'mongodb://localhost:27017/aquarium',
-        SECRET_TOKEN: 'killbit'
+        SECRET_TOKEN: 'killbit',
+        SERIAL_PORT_ADDRESS: '/dev/ttyACM1'
       }
     }
   ],
