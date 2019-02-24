@@ -4,7 +4,7 @@ import { StringDecoder } from 'string_decoder';
 const SerialPort = require('serialport');
 const Readline = require('@serialport/parser-readline');
 
-const SERIAL_PORT = process.env.SERIAL_PORT_ADDRESS || '/dev/ttyACM1';
+const SERIAL_PORT = process.env.SERIAL_PORT_ADDRESS || '/dev/tty.usbmodem14101';
 
 
 export default class SerialCtrl {
