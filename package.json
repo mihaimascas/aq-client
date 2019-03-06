@@ -11,7 +11,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "deploy": "npm install && ng build -aot -prod && tsc -p server && pm2 reload ecosystem.config.js",
+    "deploy": "npm install && ng build -aot -prod && tsc -p server && pm2 reload ecosystem.config.js && pm2 save",
     "build": "ng build",
     "start": "node dist/server/app.js",
     "predev": "tsc -p server",
